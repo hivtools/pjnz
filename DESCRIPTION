@@ -1,0 +1,20 @@
+Package: pjnz
+Title: Read Spectrum PJNZ files
+Version: 0.0.1
+Authors@R: c(
+    person(given = "Robert",
+           family = "Ashton",
+           role = c("aut", "cre"),
+           email = "robertashton94@gmail.com"),
+    person(given = "Mantra", 
+           family = "Kusumgar",
+           role = c("aut"),
+           email = "m.kusumgar@imperial.ac.uk"))
+Description: Reads data from Spectrum PJNZ files.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
