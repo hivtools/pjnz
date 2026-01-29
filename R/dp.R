@@ -38,12 +38,13 @@ read_dp <- function(pjnz) {
 #' @noRd
 read_dp_raw <- function(pjnz) {
   if (!grepl("\\.(pjnz|zip)$", pjnz, ignore.case = TRUE)) {
-    stop("Invalid file format. This function can only read .pjnz or .zip files")
+    stop(paste("Invalid file format. This function can only",
+               "read '.pjnz' or '.zip' files."))
   }
 
   dpfile <- grep("\\.DP$", utils::unzip(pjnz, list = TRUE)$Name, value = TRUE)
   if (length(dpfile) != 1) {
-    msg <- sprintf("%d .DP files found. Expected 1.", length(dpfile))
+    msg <- sprintf("%d '.DP' files found. Expected 1.", length(dpfile))
     stop(msg)
   }
 
@@ -73,10 +74,14 @@ get_data_from_cfg <- function(name, cfg, dim_vars, dp) {
   }
   if (is.null(data)) {
     if (!is.null(cfg$allow_null) && cfg$allow_null) {
-      warning(sprintf("Tag not found in DP for %s, returning NULL", name))
+      warning(sprintf("Tag not found in DP for '%s', returning NULL.", name))
       return(NULL)
     } else {
-      stop(sprintf("No tag recognised for %s", name))
+      stop(sprintf(
+        paste("No tag found for '%s', check for",
+              "typo in tag name or set allow_null to 'TRUE'"
+              ),
+        name))
     }
   }
 
@@ -183,7 +188,7 @@ get_data_from_tag_cfg <- function(tag_cfg, dim_vars, dp) {
 
 parse_dp <- function(dp) {
   dim_vars <- get_dim_vars(dp)
-  metadata <- c(get_years_cfg(), get_pars_metadata(dim_vars, dp))
+  metadata <- c(get_years_cfg(), get_pars_metadata(dim_vars))
 
   ret <- lapply(names(metadata), function(name) {
     get_data_from_cfg(name, metadata[[name]], dim_vars, dp)
