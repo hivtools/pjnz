@@ -6,8 +6,9 @@
 #'
 #' @return Named list of PJNZ data.
 #'
-#' @examples
+#' @export
 #'
+#' @examples
 #' pjnz <- system.file(
 #'   "pjnz", "bwa_aim-adult-art-no-special-elig_v6.13_2022-04-18.PJNZ",
 #'   package = "pjnz"

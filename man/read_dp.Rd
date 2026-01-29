@@ -16,7 +16,6 @@ Named list of PJNZ data.
 This function returns the Spectrum .DP file as a named list of vectors.
 }
 \examples{
-
 pjnz <- system.file(
   "pjnz", "bwa_aim-adult-art-no-special-elig_v6.13_2022-04-18.PJNZ",
   package = "pjnz"
