@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [ "int", "real" ]
+      },
+      "read": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "tag": { "type": "string" },
+            "dims": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "start_offset": {
+              "type": "object",
+              "properties": {
+                "row": { "type": "integer" },
+                "column": { "type": "integer" },
+              },
+              "additionalProperties": false
+            },
+            "column_dims": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "skip": {
+              "type": "object",
+              "properties": {
+                "rows": {
+                  "type": "array",
+                  "items": { "type": "integer" }
+                }
+              }
+            }
+          },
+          "additionalProperties": false,
+          "required": [ "tag" ]
+        }
+      }
+    }
+  }
+}
