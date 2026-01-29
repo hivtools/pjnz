@@ -16,7 +16,7 @@
 #' dp <- read_dp(pjnz)
 read_dp <- function(pjnz) {
   dp <- read_dp_raw(pjnz)
-  parse_dp(dp)
+  parse_dp(normalizePath(pjnz), dp)
 }
 
 #' Read Spectrum .DP file
@@ -37,15 +37,14 @@ read_dp <- function(pjnz) {
 #' dp <- read_dp_raw(pjnz)
 #' @noRd
 read_dp_raw <- function(pjnz) {
-  if (!grepl("\\.(pjnz|zip)$", pjnz, ignore.case = TRUE)) {
-    stop(paste("Invalid file format. This function can only",
-               "read '.pjnz' or '.zip' files."))
+  if (!(tolower(tools::file_ext(pjnz)) %in% c("pjnz", "zip"))) {
+    cli::cli_abort("File must be a {.code .pjnz} or {.code .zip} file")
   }
 
   dpfile <- grep("\\.DP$", utils::unzip(pjnz, list = TRUE)$Name, value = TRUE)
-  if (length(dpfile) != 1) {
-    msg <- sprintf("%d '.DP' files found. Expected 1.", length(dpfile))
-    stop(msg)
+  n_dpfiles <- length(dpfile)
+  if (n_dpfiles != 1) {
+    cli::cli_abort("{n_dpfiles} {.code DP} files found. Expected 1.")
   }
 
   dp <- utils::read.csv(unz(pjnz, dpfile), as.is = TRUE)
@@ -74,14 +73,15 @@ get_data_from_cfg <- function(name, cfg, dim_vars, dp) {
   }
   if (is.null(data)) {
     if (!is.null(cfg$allow_null) && cfg$allow_null) {
-      warning(sprintf("Tag not found in DP for '%s', returning NULL.", name))
+      cli::cli_text("Tag not found in DP for {.code {name}}, returning {.code NULL}")
       return(NULL)
     } else {
-      stop(sprintf(
-        paste("No tag found for '%s', check for",
-              "typo in tag name or set allow_null to 'TRUE'"
-              ),
-        name))
+      cli::cli_abort(
+        c(
+          "No tag found for {.code {name}}",
+          "i" = "Check for typo in tag name or set {.var allow_null} to {.code TRUE}"
+        )
+      )
     }
   }
 
@@ -186,13 +186,30 @@ get_data_from_tag_cfg <- function(tag_cfg, dim_vars, dp) {
   data_rectangle
 }
 
-parse_dp <- function(dp) {
+parse_dp <- function(pjnz_path, dp) {
   dim_vars <- get_dim_vars(dp)
   metadata <- c(get_years_cfg(), get_pars_metadata(dim_vars))
 
-  ret <- lapply(names(metadata), function(name) {
-    get_data_from_cfg(name, metadata[[name]], dim_vars, dp)
-  })
+  msg <- c()
+  withCallingHandlers(
+    ret <- lapply(names(metadata), function(name) {
+      get_data_from_cfg(name, metadata[[name]], dim_vars, dp)
+    }),
+    message = function(x) {
+      msg <<- c(msg, x$message)
+      invokeRestart("muffleMessage")
+    }
+  )
+  if (length(msg) > 0) {
+    path_hash <- rlang::hash(pjnz_path)
+    cli::cli_inform(c(
+      "i" = "Some tags were not found in file:",
+      stats::setNames(msg, rep("*", length(msg)))
+    ),
+    .frequency = "once",
+    .frequency_id = paste0("TAG_NOT_FOUND_", path_hash))
+  }
+
   names(ret) <- names(metadata)
   list(data = ret, dim_vars = dim_vars)
 }
