@@ -40,7 +40,7 @@ test_that("error thrown if trying to read invalid file format", {
 
   expect_error(
     read_dp(t),
-    "Invalid file format. This function can only read '.pjnz' or '.zip' files."
+    "File must be a `.pjnz` or `.zip` file"
   )
 })
 
@@ -54,17 +54,32 @@ test_that("error thrown if no DP file found in zip", {
 
   expect_error(
     read_dp(zip_file),
-    "0 '.DP' files found. Expected 1."
+    "0 `DP` files found. Expected 1."
   )
 })
 
 test_that("message raised when an expected tag is not present", {
   pjnz <- system_file(
     "pjnz", "bwa_aim-adult-art-no-special-elig_v6.13_2022-04-18.PJNZ")
+  t <- tempfile(fileext = ".zip")
+  file.copy(pjnz, t)
 
-  expect_warning(
-    dp <- read_dp(pjnz),
-    "Tag not found in DP for 'incidence_input', returning NULL."
+  expect_message(
+    dp <- read_dp(t),
+    "Some tags were not found in file"
+  )
+
+  # When reading the same file again, no message raised
+
+  expect_silent(dp <- read_dp(t))
+
+  # Reading a different file raises a message again
+  t2 <- tempfile(fileext = ".zip")
+  file.copy(pjnz, t2)
+
+  expect_message(
+    dp <- read_dp(t2),
+    "Some tags were not found in file"
   )
 })
 
@@ -82,5 +97,5 @@ test_that("error raised if variable with allow_null false is NULL", {
                                  metadata$incidence_input,
                                  dim_vars,
                                  dp_raw),
-               "No tag found for 'incidence_input'")
+               "No tag found for `incidence_input`")
 })
