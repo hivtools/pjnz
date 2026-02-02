@@ -43,9 +43,9 @@ get_static_dim_vars <- function() {
     a_0to14 = 0:14,
     a_0to14_coarse = c("00-04", "05-09", "10-14"),
     a_0to14_coarse_2 = c("00-02", "03-04", "05-14"),
-    g = c("male", "female"),
-    g_both_middle = c("male", "both", "female"),
-    g_both_first = both_sex_vec,
+    s = c("male", "female"),
+    s_both_middle = c("male", "both", "female"),
+    s_both_first = both_sex_vec,
     incid_type = list(
       "Direct incidence input (15 - 49)", "EPP Incidence (15 - 49)",
       "AEM Incidence (15 - 49)", "Fit incidence to CSAVR",
@@ -159,7 +159,7 @@ get_static_dim_vars <- function() {
   )
 }
 
-get_pars_metadata <- function(dim_vars, dp) {
+get_pars_metadata <- function(dim_vars) {
   list(
     version_num = list(
       read = list(
@@ -177,17 +177,17 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "BigPop MV",
-          dims = list("a", "g", "years"),
+          dims = list("a", "s", "years"),
           start_offset = list(row = 1)
         ),
         list(
           tag = "BigPop MV2",
-          dims = list("a", "g_both_middle", "years"),
+          dims = list("a", "s_both_middle", "years"),
           start_offset = list(row = 1)
         ),
         list(
           tag = "BigPop MV3",
-          dims = list("a", "g", "years"),
+          dims = list("a", "s", "years"),
           start_offset = list(row = 1)
         )
       )
@@ -197,7 +197,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "SurvRate MV",
-          dims = list("a_80plus", "g", "years"),
+          dims = list("a_80plus", "s", "years"),
           start_offset = list(row = 1),
           skip = list(
             rows = list(
@@ -208,7 +208,7 @@ get_pars_metadata <- function(dim_vars, dp) {
         ),
         list(
           tag = "SurvRate MV2",
-          dims = list("a_80plus", "g", "years"),
+          dims = list("a_80plus", "s", "years"),
           start_offset = list(row = 1)
         )
       )
@@ -255,7 +255,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "MigrRate MV",
-          dims = list("g", "years"),
+          dims = list("s", "years"),
           start_offset = list(row = 1),
           skip = list(
             # 3 and 6 have actual data, the rest are descriptions so
@@ -267,7 +267,7 @@ get_pars_metadata <- function(dim_vars, dp) {
         ),
         list(
           tag = "MigrRate MV2",
-          dims = list("g", "years"),
+          dims = list("s", "years"),
           start_offset = list(row = 1),
           skip = list(
             # 2 and 4 have actual data,
@@ -282,7 +282,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "MigrAgeDist MV",
-          dims = list("a_0to80plus_5year", "g", "years"),
+          dims = list("a_0to80plus_5year", "s", "years"),
           skip = list(
             rows = as.list(
               # empty rows for alternating labels for male and female
@@ -296,7 +296,7 @@ get_pars_metadata <- function(dim_vars, dp) {
         ),
         list(
           tag = "MigrAgeDist MV2",
-          dims = list("a_0to80plus_5year", "g", "years"),
+          dims = list("a_0to80plus_5year", "s", "years"),
           start_offset = list(row = 1)
         )
       )
@@ -368,7 +368,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "DistOfHIV MV",
-          dims = list("a_0to80plus_5year", "g", "years"),
+          dims = list("a_0to80plus_5year", "s", "years"),
           start_offset = list(row = 1),
           skip = list(
             # Males and Females label so ignore those rows
@@ -377,7 +377,7 @@ get_pars_metadata <- function(dim_vars, dp) {
         ),
         list(
           tag = "DistOfHIV MV2",
-          dims = list("a_0to80plus_5year", "g", "years"),
+          dims = list("a_0to80plus_5year", "s", "years"),
           start_offset = list(row = 1)
         )
       )
@@ -387,7 +387,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "AdultDistNewInfectionsCD4 MV",
-          dims = list("g", "cd4_count", "a_15to45plus_10year"),
+          dims = list("s", "cd4_count", "a_15to45plus_10year"),
           start_offset = list(row = 1),
           column_dims = list("cd4_count", "a_15to45plus_10year")
         )
@@ -398,7 +398,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "AdultAnnRateProgressLowerCD4 MV",
-          dims = list("g", "cd4_prog", "a_15to45plus_10year"),
+          dims = list("s", "cd4_prog", "a_15to45plus_10year"),
           start_offset = list(row = 1),
           column_dims = list("cd4_prog", "a_15to45plus_10year"),
           skip = list(
@@ -414,7 +414,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "AdultMortByCD4NoART MV",
-          dims = list("g", "cd4_count", "a_15to45plus_10year"),
+          dims = list("s", "cd4_count", "a_15to45plus_10year"),
           start_offset = list(row = 1),
           column_dims = list("cd4_count", "a_15to45plus_10year")
         )
@@ -425,13 +425,13 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "AdultMortByCD4WithART0to6 MV",
-          dims = list("g", "cd4_count", "a_15to45plus_10year"),
+          dims = list("s", "cd4_count", "a_15to45plus_10year"),
           start_offset = list(row = 1),
           column_dims = list("cd4_count", "a_15to45plus_10year")
         ),
         list(
           tag = "AdultMortByCD4WithART0to6 MV2",
-          dims = list("g", "cd4_count", "a_15to45plus_10year"),
+          dims = list("s", "cd4_count", "a_15to45plus_10year"),
           column_dims = list("cd4_count", "a_15to45plus_10year")
         )
       )
@@ -441,13 +441,13 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "AdultMortByCD4WithART7to12 MV",
-          dims = list("g", "cd4_count", "a_15to45plus_10year"),
+          dims = list("s", "cd4_count", "a_15to45plus_10year"),
           start_offset = list(row = 1),
           column_dims = list("cd4_count", "a_15to45plus_10year")
         ),
         list(
           tag = "AdultMortByCD4WithART7to12 MV2",
-          dims = list("g", "cd4_count", "a_15to45plus_10year"),
+          dims = list("s", "cd4_count", "a_15to45plus_10year"),
           column_dims = list("cd4_count", "a_15to45plus_10year")
         )
       )
@@ -457,13 +457,13 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "AdultMortByCD4WithARTGt12 MV",
-          dims = list("g", "cd4_count", "a_15to45plus_10year"),
+          dims = list("s", "cd4_count", "a_15to45plus_10year"),
           start_offset = list(row = 1),
           column_dims = list("cd4_count", "a_15to45plus_10year")
         ),
         list(
           tag = "AdultMortByCD4WithARTGt12 MV2",
-          dims = list("g", "cd4_count", "a_15to45plus_10year"),
+          dims = list("s", "cd4_count", "a_15to45plus_10year"),
           column_dims = list("cd4_count", "a_15to45plus_10year")
         )
       )
@@ -497,7 +497,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "AdultNonAIDSExcessMort MV",
-          dims = list("art_status", "g", "cd4_count", "a_15to45plus_10year"),
+          dims = list("art_status", "s", "cd4_count", "a_15to45plus_10year"),
           column_dims = list("cd4_count", "a_15to45plus_10year")
         )
       )
@@ -507,7 +507,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "HAARTBySexPerNum MV",
-          dims = list("g_both_first", "years"),
+          dims = list("s_both_first", "years"),
           start_offset = list(row = 1)
         )
       )
@@ -517,7 +517,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "HAARTBySex MV",
-          dims = list("g_both_first", "years"),
+          dims = list("s_both_first", "years"),
           start_offset = list(row = 1)
         )
       )
@@ -563,7 +563,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "HIVBySingleAge MV",
-          dims = list("a", "g", "years"),
+          dims = list("a", "s", "years"),
           start_offset = list(row = 1),
           skip = list(
             rows = list(
@@ -574,7 +574,7 @@ get_pars_metadata <- function(dim_vars, dp) {
         ),
         list(
           tag = "HIVBySingleAge MV2",
-          dims = list("a", "g", "years"),
+          dims = list("a", "s", "years"),
           start_offset = list(row = 1)
         )
       )
@@ -584,7 +584,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "AidsDeathsByAge MV",
-          dims = list("a", "g", "years"),
+          dims = list("a", "s", "years"),
           start_offset = list(row = 2),
           skip = list(
             rows = list(
@@ -594,7 +594,7 @@ get_pars_metadata <- function(dim_vars, dp) {
         ),
         list(
           tag = "AidsDeathsByAge MV2",
-          dims = list("a", "g", "years"),
+          dims = list("a", "s", "years"),
           start_offset = list(row = 1)
         )
       )
@@ -642,7 +642,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "AdultARTAdjFactor",
-          dims = list("g", "years"),
+          dims = list("s", "years"),
           start_offset = list(row = 1)
         )
       )
@@ -662,7 +662,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "AdultPatsAllocToFromOtherRegion",
-          dims = list("g", "years"),
+          dims = list("s", "years"),
           start_offset = list(row = 1)
         )
       )
@@ -888,7 +888,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "ChildAnnRateProgressLowerCD4 MV2",
-          dims = list("g", "cd4_prog_0to14"),
+          dims = list("s", "cd4_prog_0to14"),
           skip = list(
             columns = (length(dim_vars$cd4_perc_0to4) - 1) * 2 + 1
           ),
@@ -896,7 +896,7 @@ get_pars_metadata <- function(dim_vars, dp) {
         ),
         list(
           tag = "ChildAnnRateProgressLowerCD4 MV",
-          dims = list("g", "cd4_prog_0to14_old"),
+          dims = list("s", "cd4_prog_0to14_old"),
           skip = list(
             column = (length(dim_vars$cd4_perc_0to4)) * 2 + 1
           ),
@@ -928,7 +928,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "ChildMortByCD4WithART0to6 MV2",
-          dims = list("g", "paed_age_time_art_cd4"),
+          dims = list("s", "paed_age_time_art_cd4"),
           skip = list(
             columns = c((length(dim_vars$cd4_perc_0to4) * 3) + 1,
                         (length(dim_vars$cd4_perc_0to4) * 4) + 1)
@@ -936,7 +936,7 @@ get_pars_metadata <- function(dim_vars, dp) {
         ),
         list(
           tag = "ChildMortByCD4WithART0to6 MV",
-          dims = list("g", "paed_age_time_art_cd4"),
+          dims = list("s", "paed_age_time_art_cd4"),
           start_offset = list(row = 1),
           skip = list(
             columns = c((length(dim_vars$cd4_perc_0to4) * 3) + 1,
@@ -950,7 +950,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "ChildMortByCD4WithART7to12 MV",
-          dims = list("g", "paed_age_time_art_cd4"),
+          dims = list("s", "paed_age_time_art_cd4"),
           start_offset = list(row = 1),
           skip = list(
             columns = c((length(dim_vars$cd4_perc_0to4) * 3) + 1,
@@ -964,7 +964,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "ChildMortByCD4WithARTGT12 MV",
-          dims = list("g", "paed_age_time_art_cd4"),
+          dims = list("s", "paed_age_time_art_cd4"),
           start_offset = list(row = 1),
           skip = list(
             columns = c((length(dim_vars$cd4_perc_0to4) * 3) + 1,
@@ -1017,7 +1017,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "CD4Distribution MV2",
-          dims = list("neg_adult_cd4_categories", "g_both_first", "art_status", "years"),
+          dims = list("neg_adult_cd4_categories", "s_both_first", "art_status", "years"),
           skip = list(
             rows = c(25, 50)
           )
@@ -1035,7 +1035,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "NewInfectionsBySingleAge MV",
-          dims = list("g_both_first", "a_80plus_no_80", "years")
+          dims = list("s_both_first", "a_80plus_no_80", "years")
         )
       )
     ),
@@ -1044,7 +1044,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "CD4Distribution15_49 MV2",
-          dims = list("neg_adult_cd4_categories", "g_both_first", "art_status", "years"),
+          dims = list("neg_adult_cd4_categories", "s_both_first", "art_status", "years"),
           skip = list(
             rows =  c(25, 50)
           )
@@ -1066,7 +1066,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "AIDSDeathsNoARTSingleAge MV",
-          dims = list("a_80plus_no_80", "g_both_first", "years"),
+          dims = list("a_80plus_no_80", "s_both_first", "years"),
           skip = list(
             rows = c(82, 163)
           ),
@@ -1081,7 +1081,7 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "AIDSDeathsARTSingleAge MV",
-          dims = list("a_80plus_no_80", "g_both_first", "years"),
+          dims = list("a_80plus_no_80", "s_both_first", "years"),
           skip = list(
             rows = c(82, 163)
           ),
@@ -1094,14 +1094,14 @@ get_pars_metadata <- function(dim_vars, dp) {
       read = list(
         list(
           tag = "ChildARTCalc MV2",
-          dims = list("g_both_first", "child_art_cats", "years"),
+          dims = list("s_both_first", "child_art_cats", "years"),
           start_offset = list(row = 1)
         ),
         list(
           tag = "ChildARTCalc MV",
-          dims = list("g_both_first", "child_art_cats", "years"),
+          dims = list("s_both_first", "child_art_cats", "years"),
           skip = list(
-            rows = 1 + c(length(dim_vars$g_both_first) + 1) * 0:3
+            rows = 1 + c(length(dim_vars$s_both_first) + 1) * 0:3
           ),
           start_offset = list(row = 1)
         )
