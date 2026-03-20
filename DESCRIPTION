@@ -1,6 +1,6 @@
 Package: pjnz
 Title: Read Spectrum PJNZ files
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: c(
     person(given = "Robert",
            family = "Ashton",
@@ -21,6 +21,10 @@ Imports:
 Suggests:
     jsonlite,
     jsonvalidate,
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0),
     zip
+VignetteBuilder:
+    knitr
 Config/testthat/edition: 3
