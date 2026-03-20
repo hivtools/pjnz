@@ -47,7 +47,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_dp</span><span class="op">(</span><span class="va">pjnz</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_dp</span><span class="op">(</span><span class="va">pjnz</span>, include_raw <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -55,12 +55,19 @@
 
 
 <dl><dt id="arg-pjnz">pjnz<a class="anchor" aria-label="anchor" href="#arg-pjnz"></a></dt>
-<dd><p>file path to Spectrum PJNZ file</p></dd>
+<dd><p>file path to Spectrum PJNZ file.</p></dd>
+
+
+<dt id="arg-include-raw">include_raw<a class="anchor" aria-label="anchor" href="#arg-include-raw"></a></dt>
+<dd><p>If TRUE, return raw dp data in return list.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Named list of PJNZ data.</p>
+    <p>List with items:
+data - Named list of modvars read from DP file
+dim_vars - Dimensions
+dp_raw - (optionally) Raw DP data</p>
     </div>
 
     <div id="ref-examples">
