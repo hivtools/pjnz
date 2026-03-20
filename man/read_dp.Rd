@@ -4,13 +4,18 @@
 \alias{read_dp}
 \title{Read Spectrum .DP file}
 \usage{
-read_dp(pjnz)
+read_dp(pjnz, include_raw = FALSE)
 }
 \arguments{
-\item{pjnz}{file path to Spectrum PJNZ file}
+\item{pjnz}{file path to Spectrum PJNZ file.}
+
+\item{include_raw}{If TRUE, return raw dp data in return list.}
 }
 \value{
-Named list of PJNZ data.
+List with items:
+data - Named list of modvars read from DP file
+dim_vars - Dimensions
+dp_raw - (optionally) Raw DP data
 }
 \description{
 This function returns the Spectrum .DP file as a named list of vectors.

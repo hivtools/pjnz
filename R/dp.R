@@ -2,9 +2,13 @@
 #'
 #' This function returns the Spectrum .DP file as a named list of vectors.
 #'
-#' @param pjnz file path to Spectrum PJNZ file
+#' @param pjnz file path to Spectrum PJNZ file.
+#' @param include_raw If TRUE, return raw dp data in return list.
 #'
-#' @return Named list of PJNZ data.
+#' @return List with items:
+#'   data - Named list of modvars read from DP file
+#'   dim_vars - Dimensions
+#'   dp_raw - (optionally) Raw DP data
 #'
 #' @export
 #'
@@ -14,9 +18,13 @@
 #'   package = "pjnz"
 #' )
 #' dp <- read_dp(pjnz)
-read_dp <- function(pjnz) {
+read_dp <- function(pjnz, include_raw = FALSE) {
   dp <- read_dp_raw(pjnz)
-  parse_dp(normalizePath(pjnz), dp)
+  data <- parse_dp(normalizePath(pjnz), dp)
+  if (include_raw) {
+    data$dp_raw <- dp
+  }
+  data
 }
 
 #' Read Spectrum .DP file

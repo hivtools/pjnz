@@ -99,3 +99,12 @@ test_that("error raised if variable with allow_null false is NULL", {
                                  dp_raw),
                "No tag found for `incidence_input`")
 })
+
+test_that("can return raw DP data if requested", {
+  pjnz <- system_file(
+    "pjnz", "bwa_aim-adult-art-no-special-elig_v6.13_2022-04-18.PJNZ")
+  dp <- read_dp(pjnz, include_raw = TRUE)
+
+  expect_equal(names(dp), c("data", "dim_vars", "dp_raw"))
+  expect_equal(colnames(dp$dp_raw)[[1]], "Tag")
+})
