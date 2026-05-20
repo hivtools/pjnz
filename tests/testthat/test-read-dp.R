@@ -108,3 +108,25 @@ test_that("can return raw DP data if requested", {
   expect_equal(names(dp), c("data", "dim_vars", "dp_raw"))
   expect_equal(colnames(dp$dp_raw)[[1]], "Tag")
 })
+
+test_that("can read DP file with EPP indicators", {
+  pjnz <- system_file("pjnz", "Azerbaijan.PJNZ")
+  dp <- read_dp(pjnz)
+
+  expect_length(dp$data$epp_idu_mortality$data, 7)
+  expect_equal(dp$data$epp_idu_mortality$data[1], 0, ignore_attr = TRUE)
+  expect_true(all(dp$data$epp_idu_mortality$data[-1] == 2.5))
+  expect_length(dp$data$prop_idu_wb$data, dp$data$final_year$data - dp$data$first_year$data + 1)
+  expect_true(!any(is.na(dp$data$prop_idu_wb$data)))
+  expect_true(!any(is.null(dp$data$prop_idu_wb$data)))
+  expect_equal(dp$data$sex_ratio_from_epp$data, 0)
+
+  # If tag not present, returns NULL
+  pjnz <- system_file("pjnz", "Botswana2018.PJNZ")
+  dp <- read_dp(pjnz)
+
+  expect_null(dp$data$epp_idu_mortality)
+  expect_true(!any(is.na(dp$data$prop_idu_wb$data)))
+  expect_true(!any(is.null(dp$data$prop_idu_wb$data)))
+  expect_equal(dp$data$sex_ratio_from_epp$data, 0)
+})
