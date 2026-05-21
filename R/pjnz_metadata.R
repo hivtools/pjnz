@@ -17,6 +17,18 @@ get_years_cfg <- function() {
   )
 }
 
+get_epp_cfg <- function() {
+  list(
+    epp_epi_name = list(
+      type = "character",
+      allow_null = TRUE,
+      read = list(
+        list(tag = "EPPEpiName MV")
+      )
+    )
+  )
+}
+
 get_static_dim_vars <- function() {
   adult_cd4_categories <- c("500+", "350-500", "250-349", "200-249", "100-199", "50-99", "50-")
   pmtct_options <- c(
@@ -1104,6 +1116,49 @@ get_pars_metadata <- function(dim_vars) {
             rows = 1 + c(length(dim_vars$s_both_first) + 1) * 0:3
           ),
           start_offset = list(row = 1)
+        )
+      )
+    ),
+    epp_idu_mortality = list(
+      type = "real",
+      allow_null = TRUE,
+      read = list(
+        list(
+          tag = "EPPIDUMortality MV",
+          dims = list("epp_subpops"),
+          skip = list(
+            # Skip the first col, this has 0 - I think for national? But that isn't in the
+            # SPT file. The SPT file only has IDU mortality for each of the subpops.
+            # So skip the first
+            cols = 1
+          )
+        )
+      )
+    ),
+    prop_idu_wb = list(
+      type = "real",
+      allow_null = TRUE,
+      read = list(
+        list(
+          tag = "PropIDU_WB MV",
+          dims = list("years"),
+          skip = list(
+            # First row contains no data, skip it. Then take 2nd row and
+            # skip all subsequent rows, the DP has a row for Epidemic 0 to Epidemic 500
+            # but Spectrum desktop only ever uses the first row, so I'm just
+            # excluding the remaining rows.
+            # It is not clear what they map to from the SPT file either.
+            rows = c(1, 3:502)
+          )
+        )
+      )
+    ),
+    sex_ratio_from_epp = list(
+      type = "real",
+      allow_null = TRUE,
+      read = list(
+        list(
+          tag = "SexRatioFromEPP MV"
         )
       )
     )
