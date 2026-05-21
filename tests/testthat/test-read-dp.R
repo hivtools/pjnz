@@ -15,7 +15,7 @@ test_that("can read DP file from PJNZ", {
   ## Fixed dims are set
   fixed_dims <- get_static_dim_vars()
   expect_setequal(names(dp$dim_vars),
-                  c(names(fixed_dims), "years"))
+                  c(names(fixed_dims), "years", "epp_subpops"))
 
   ## Data types are set correctly int and real
   expect_equal(dp$data$final_year$data, 2030)
@@ -128,5 +128,14 @@ test_that("can read DP file with EPP indicators", {
   expect_null(dp$data$epp_idu_mortality)
   expect_true(!any(is.na(dp$data$prop_idu_wb$data)))
   expect_true(!any(is.null(dp$data$prop_idu_wb$data)))
+  expect_equal(dp$data$sex_ratio_from_epp$data, 0)
+
+  # If no epp sub-pops
+  pjnz <- system_file("pjnz", "bwa_aim-adult-art-no-special-elig_v6.13_2022-04-18.PJNZ")
+  dp <- read_dp(pjnz)
+
+  expect_equal(dp$data$epp_idu_mortality$data,
+               array(0, dim = list("epp_subpops" = 1), dimnames = list("national")))
+  expect_true(all(dp$data$prop_idu_wb$data == 0))
   expect_equal(dp$data$sex_ratio_from_epp$data, 0)
 })

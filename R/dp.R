@@ -71,7 +71,12 @@ get_dim_vars <- function(dp) {
 
   epp_cfg <- get_epp_cfg()
   ## TODO: is national the right label here?
-  dim_vars$epp_subpops <- c("national", get_data_from_cfg("epp_epi_name", epp_cfg$epp_epi_name, dim_vars, dp)$data)
+  subpop_names <- get_data_from_cfg("epp_epi_name", epp_cfg$epp_epi_name, dim_vars, dp)$data
+  if (is.null(subpop_names) || (length(subpop_names) == 1 && subpop_names == "")) {
+    dim_vars$epp_subpops <- "national"
+  } else {
+    dim_vars$epp_subpops <- c("national", get_data_from_cfg("epp_epi_name", epp_cfg$epp_epi_name, dim_vars, dp)$data)
+  }
 
   dim_vars
 }

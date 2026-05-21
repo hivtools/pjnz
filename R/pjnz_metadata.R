@@ -21,6 +21,7 @@ get_epp_cfg <- function() {
   list(
     epp_epi_name = list(
       type = "character",
+      allow_null = TRUE,
       read = list(
         list(tag = "EPPEpiName MV")
       )

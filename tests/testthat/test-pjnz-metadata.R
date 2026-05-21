@@ -24,5 +24,5 @@ test_that("metadata is well formed", {
 
   fixed_dims <- get_static_dim_vars()
 
-  expect_true(all(all_dims %in% c(names(fixed_dims), "years")))
+  expect_true(all(all_dims %in% c(names(fixed_dims), "years", "epp_subpops")))
 })
