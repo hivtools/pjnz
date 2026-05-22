@@ -1126,12 +1126,8 @@ get_pars_metadata <- function(dim_vars) {
         list(
           tag = "EPPIDUMortality MV",
           dims = list("epp_subpops"),
-          skip = list(
-            # Skip the first col, this has 0 - I think for national? But that isn't in the
-            # SPT file. The SPT file only has IDU mortality for each of the subpops.
-            # So skip the first
-            cols = 1
-          )
+          # Skip the first col, this has a junk 0.
+          start_offset = list(column = 1)
         )
       )
     ),
