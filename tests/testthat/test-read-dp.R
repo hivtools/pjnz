@@ -113,27 +113,27 @@ test_that("can read DP file with EPP indicators", {
   pjnz <- system_file("pjnz", "Azerbaijan.PJNZ")
   dp <- read_dp(pjnz)
 
-  expect_length(dp$data$epp_idu_mortality$data, 6)
-  expect_true(all(dp$data$epp_idu_mortality$data == 2.5))
-  expect_length(dp$data$prop_idu_wb$data, dp$data$final_year$data - dp$data$first_year$data + 1)
-  expect_true(!any(is.na(dp$data$prop_idu_wb$data)))
-  expect_true(!any(is.null(dp$data$prop_idu_wb$data)))
-  expect_equal(dp$data$sex_ratio_from_epp$data, 0)
+  expect_length(dp$data$pwid_hivpos_nonaids_mortality$data, 6)
+  expect_true(all(dp$data$pwid_hivpos_nonaids_mortality$data == 2.5))
+  expect_length(dp$data$prop_hivpop_pwid$data, dp$data$final_year$data - dp$data$first_year$data + 1)
+  expect_true(!any(is.na(dp$data$prop_hivpop_pwid$data)))
+  expect_true(!any(is.null(dp$data$prop_hivpop_pwid$data)))
+  expect_equal(dp$data$pwid_sex_ratio$data, 0)
 
   # If tag not present, returns NULL
   pjnz <- system_file("pjnz", "Botswana2018.PJNZ")
   dp <- read_dp(pjnz)
 
-  expect_null(dp$data$epp_idu_mortality)
-  expect_true(!any(is.na(dp$data$prop_idu_wb$data)))
-  expect_true(!any(is.null(dp$data$prop_idu_wb$data)))
-  expect_equal(dp$data$sex_ratio_from_epp$data, 0)
+  expect_null(dp$data$pwid_hivpos_nonaids_mortality)
+  expect_true(!any(is.na(dp$data$prop_hivpop_pwid$data)))
+  expect_true(!any(is.null(dp$data$prop_hivpop_pwid$data)))
+  expect_equal(dp$data$pwid_sex_ratio$data, 0)
 
   # If no epp sub-pops
   pjnz <- system_file("pjnz", "bwa_aim-adult-art-no-special-elig_v6.13_2022-04-18.PJNZ")
   dp <- read_dp(pjnz)
 
-  expect_equal(dp$data$epp_idu_mortality$data, NA_real_, ignore_attr = TRUE)
-  expect_true(all(dp$data$prop_idu_wb$data == 0))
-  expect_equal(dp$data$sex_ratio_from_epp$data, 0)
+  expect_equal(dp$data$pwid_hivpos_nonaids_mortality$data, NA_real_, ignore_attr = TRUE)
+  expect_true(all(dp$data$prop_hivpop_pwid$data == 0))
+  expect_equal(dp$data$pwid_sex_ratio$data, 0)
 })

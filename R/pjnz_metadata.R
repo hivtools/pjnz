@@ -1119,7 +1119,7 @@ get_pars_metadata <- function(dim_vars) {
         )
       )
     ),
-    epp_idu_mortality = list(
+    pwid_hivpos_nonaids_mortality = list(
       type = "real",
       allow_null = TRUE,
       read = list(
@@ -1131,7 +1131,7 @@ get_pars_metadata <- function(dim_vars) {
         )
       )
     ),
-    prop_idu_wb = list(
+    prop_hivpop_pwid = list(
       type = "real",
       allow_null = TRUE,
       read = list(
@@ -1149,7 +1149,7 @@ get_pars_metadata <- function(dim_vars) {
         )
       )
     ),
-    sex_ratio_from_epp = list(
+    pwid_sex_ratio = list(
       type = "real",
       allow_null = TRUE,
       read = list(
