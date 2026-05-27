@@ -62,12 +62,16 @@ read_dp_raw <- function(pjnz) {
 }
 
 get_dim_vars <- function(dp) {
+  dim_vars <- get_static_dim_vars()
+
   years_cfg <- get_years_cfg()
   start <- get_data_from_cfg("first_year", years_cfg$first_year, dim_vars, dp)$data
   end <- get_data_from_cfg("final_year", years_cfg$final_year, dim_vars, dp)$data
-
-  dim_vars <- get_static_dim_vars()
   dim_vars$years <- as.character(start:end)
+
+  epp_cfg <- get_epp_cfg()
+  dim_vars$epp_subpops <- get_data_from_cfg("epp_epi_name", epp_cfg$epp_epi_name, dim_vars, dp)$data
+
   dim_vars
 }
 
@@ -99,6 +103,8 @@ get_data_from_cfg <- function(name, cfg, dim_vars, dp) {
       conversion_function <- as.numeric
     } else if (cfg$type == "int") {
       conversion_function <- as.integer
+    } else if (cfg$type == "character") {
+      conversion_function <- trimws
     }
   }
 

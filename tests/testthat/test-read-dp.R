@@ -15,7 +15,7 @@ test_that("can read DP file from PJNZ", {
   ## Fixed dims are set
   fixed_dims <- get_static_dim_vars()
   expect_setequal(names(dp$dim_vars),
-                  c(names(fixed_dims), "years"))
+                  c(names(fixed_dims), "years", "epp_subpops"))
 
   ## Data types are set correctly int and real
   expect_equal(dp$data$final_year$data, 2030)
@@ -107,4 +107,33 @@ test_that("can return raw DP data if requested", {
 
   expect_equal(names(dp), c("data", "dim_vars", "dp_raw"))
   expect_equal(colnames(dp$dp_raw)[[1]], "Tag")
+})
+
+test_that("can read DP file with EPP indicators", {
+  pjnz <- system_file("pjnz", "Azerbaijan.PJNZ")
+  dp <- read_dp(pjnz)
+
+  expect_length(dp$data$pwid_hivpos_nonaids_mortality$data, 6)
+  expect_true(all(dp$data$pwid_hivpos_nonaids_mortality$data == 2.5))
+  expect_length(dp$data$prop_hivpop_pwid$data, dp$data$final_year$data - dp$data$first_year$data + 1)
+  expect_true(!any(is.na(dp$data$prop_hivpop_pwid$data)))
+  expect_true(!any(is.null(dp$data$prop_hivpop_pwid$data)))
+  expect_equal(dp$data$pwid_sex_ratio$data, 0)
+
+  # If tag not present, returns NULL
+  pjnz <- system_file("pjnz", "Botswana2018.PJNZ")
+  dp <- read_dp(pjnz)
+
+  expect_null(dp$data$pwid_hivpos_nonaids_mortality)
+  expect_true(!any(is.na(dp$data$prop_hivpop_pwid$data)))
+  expect_true(!any(is.null(dp$data$prop_hivpop_pwid$data)))
+  expect_equal(dp$data$pwid_sex_ratio$data, 0)
+
+  # If no epp sub-pops
+  pjnz <- system_file("pjnz", "bwa_aim-adult-art-no-special-elig_v6.13_2022-04-18.PJNZ")
+  dp <- read_dp(pjnz)
+
+  expect_equal(dp$data$pwid_hivpos_nonaids_mortality$data, NA_real_, ignore_attr = TRUE)
+  expect_true(all(dp$data$prop_hivpop_pwid$data == 0))
+  expect_equal(dp$data$pwid_sex_ratio$data, 0)
 })
