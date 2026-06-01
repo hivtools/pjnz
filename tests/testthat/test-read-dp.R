@@ -115,9 +115,9 @@ test_that("can read DP file with EPP indicators", {
 
   expect_length(dp$data$pwid_hivpos_nonaids_mortality$data, 6)
   expect_true(all(dp$data$pwid_hivpos_nonaids_mortality$data == 2.5))
-  expect_length(dp$data$prop_hivpop_pwid$data, dp$data$final_year$data - dp$data$first_year$data + 1)
-  expect_true(!any(is.na(dp$data$prop_hivpop_pwid$data)))
-  expect_true(!any(is.null(dp$data$prop_hivpop_pwid$data)))
+  expect_length(dp$data$pwid_prop_hivpop$data, dp$data$final_year$data - dp$data$first_year$data + 1)
+  expect_true(!any(is.na(dp$data$pwid_prop_hivpop$data)))
+  expect_true(!any(is.null(dp$data$pwid_prop_hivpop$data)))
   expect_equal(dp$data$pwid_sex_ratio$data, 0)
 
   # If tag not present, returns NULL
@@ -125,8 +125,8 @@ test_that("can read DP file with EPP indicators", {
   dp <- read_dp(pjnz)
 
   expect_null(dp$data$pwid_hivpos_nonaids_mortality)
-  expect_true(!any(is.na(dp$data$prop_hivpop_pwid$data)))
-  expect_true(!any(is.null(dp$data$prop_hivpop_pwid$data)))
+  expect_true(!any(is.na(dp$data$pwid_prop_hivpop$data)))
+  expect_true(!any(is.null(dp$data$pwid_prop_hivpop$data)))
   expect_equal(dp$data$pwid_sex_ratio$data, 0)
 
   # If no epp sub-pops
@@ -134,6 +134,6 @@ test_that("can read DP file with EPP indicators", {
   dp <- read_dp(pjnz)
 
   expect_equal(dp$data$pwid_hivpos_nonaids_mortality$data, NA_real_, ignore_attr = TRUE)
-  expect_true(all(dp$data$prop_hivpop_pwid$data == 0))
+  expect_true(all(dp$data$pwid_prop_hivpop$data == 0))
   expect_equal(dp$data$pwid_sex_ratio$data, 0)
 })

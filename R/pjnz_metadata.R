@@ -1131,7 +1131,7 @@ get_pars_metadata <- function(dim_vars) {
         )
       )
     ),
-    prop_hivpop_pwid = list(
+    pwid_prop_hivpop = list(
       type = "real",
       allow_null = TRUE,
       read = list(
