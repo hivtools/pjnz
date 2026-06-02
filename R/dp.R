@@ -86,7 +86,8 @@ get_data_from_cfg <- function(name, cfg, dim_vars, dp) {
   }
   if (is.null(data)) {
     if (!is.null(cfg$allow_null) && cfg$allow_null) {
-      cli::cli_text("Tag not found in DP for {.code {name}}, returning {.code NULL}")
+      tag <- tag_cfg$tag
+      cli::cli_text("Tag {.code {tag}} not found in DP for {.code {name}}, returning {.code NULL}")
       return(NULL)
     } else {
       cli::cli_abort(
