@@ -1,6 +1,7 @@
 #' Read Spectrum .DP file
 #'
-#' This function returns the Spectrum .DP file as a named list of vectors.
+#' This function returns the Spectrum .DP file as a named list of vectors. To
+#' suppress warnings set option "pjnz.inform" to FALSE.
 #'
 #' @param pjnz file path to Spectrum PJNZ file.
 #' @param include_raw If TRUE, return raw dp data in return list.
@@ -214,7 +215,7 @@ parse_dp <- function(pjnz_path, dp) {
       invokeRestart("muffleMessage")
     }
   )
-  if (length(msg) > 0) {
+  if (length(msg) > 0 && inform()) {
     path_hash <- rlang::hash(pjnz_path)
     cli::cli_inform(c(
       "i" = "Some tags were not found in file:",

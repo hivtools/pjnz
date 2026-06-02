@@ -83,6 +83,25 @@ test_that("message raised when an expected tag is not present", {
   )
 })
 
+test_that("message not raised when inform options is false", {
+  pjnz <- system_file(
+    "pjnz", "bwa_aim-adult-art-no-special-elig_v6.13_2022-04-18.PJNZ")
+  t <- tempfile(fileext = ".zip")
+  file.copy(pjnz, t)
+
+  withr::with_options(list("pjnz.inform" = FALSE),
+    expect_silent(dp <- read_dp(t))
+  )
+
+  # If not set to a valid logical, then informs by default
+  withr::with_options(list("pjnz.inform" = "ribbit"),
+    expect_message(
+      dp <- read_dp(t),
+      "Some tags were not found in file"
+    )
+  )
+})
+
 test_that("error raised if variable with allow_null false is NULL", {
   pjnz <- system_file(
     "pjnz", "bwa_aim-adult-art-no-special-elig_v6.13_2022-04-18.PJNZ")

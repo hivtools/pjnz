@@ -1,12 +1,12 @@
 Package: pjnz
 Title: Read Spectrum PJNZ files
-Version: 0.0.4
+Version: 0.0.5
 Authors@R: c(
     person(given = "Robert",
            family = "Ashton",
            role = c("aut", "cre"),
            email = "robertashton94@gmail.com"),
-    person(given = "Mantra", 
+    person(given = "Mantra",
            family = "Kusumgar",
            role = c("aut"),
            email = "m.kusumgar@imperial.ac.uk"))
