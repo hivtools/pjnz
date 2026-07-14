@@ -1157,6 +1157,26 @@ get_pars_metadata <- function(dim_vars) {
           tag = "SexRatioFromEPP MV"
         )
       )
+    ),
+    art_initiation_rate = list(
+      type = "real",
+      allow_null = TRUE,
+      read = list(
+        list(
+          tag = "ARTInitiationRate",
+          dims = list("s", "years"),
+          start_offset = list(row = 1)
+        )
+      )
+    ),
+    art_coverage_selection = list(
+      type = "int",
+      allow_null = TRUE,
+      read = list(
+        list(
+          tag = "ARTCoverageSelection MV"
+        )
+      )
     )
   )
 }

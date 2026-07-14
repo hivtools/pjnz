@@ -156,3 +156,15 @@ test_that("can read DP file with EPP indicators", {
   expect_true(all(dp$data$pwid_prop_hivpop$data == 0))
   expect_equal(dp$data$pwid_sex_ratio$data, 0)
 })
+
+
+test_that("can read ART initiation rate", {
+  pjnz <- system_file("pjnz", "SouthAfrica_art_initiation_rate.PJNZ")
+  dp <- read_dp(pjnz)
+
+  init_rate <- dp$data$art_initiation_rate$data
+  expect_equal(dim(init_rate), c(2, 81), ignore_attr = TRUE)
+  expect_true(all(init_rate[, as.character(c(1970:1995, 1997:2030))] == 0))
+  expect_equal(dp$data$art_initiation_rate$data[, "1996"], c(0.4, 0.1), ignore_attr = TRUE)
+  expect_equal(dp$data$art_coverage_selection$data, 5)
+})
