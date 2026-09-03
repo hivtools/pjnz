@@ -167,7 +167,12 @@ get_static_dim_vars <- function() {
     child_art_cats = c("Children needing cotrim (0-14): ",
                        "Children receiving cotrim (0-14): ",
                        "Children needing ART (0-14): ",
-                       "Children receiving ART (0-14): ")
+                       "Children receiving ART (0-14): "),
+    prep_parameter = c(
+      "adherence_oral", "adherence_injectable", "selection_incidence_ratio",
+      "person_years_prep_oral", "person_years_prep_injectable"
+    ),
+    prep_regimen = c("oral", "injectable")
   )
 }
 
@@ -1175,6 +1180,31 @@ get_pars_metadata <- function(dim_vars) {
       read = list(
         list(
           tag = "ARTCoverageSelection MV"
+        )
+      )
+    ),
+    prep_parameters = list(
+      type = "real",
+      allow_null = TRUE,
+      read = list(
+        list(
+          tag = "PrEPParameters MV",
+          dims = list("prep_parameter"),
+          # The 5 values are stacked in a single column: the `<Value>` row is
+          # blank and the data starts on the next row. `column_dims` is empty so
+          # a single data column is read rather than one column per dim entry.
+          start_offset = list(row = 1),
+          column_dims = list()
+        )
+      )
+    ),
+    prep_for_pregnant_women = list(
+      type = "real",
+      allow_null = TRUE,
+      read = list(
+        list(
+          tag = "PrEPForPregnantWomen MV",
+          dims = list("prep_regimen", "years")
         )
       )
     )
