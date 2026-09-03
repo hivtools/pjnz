@@ -158,6 +158,38 @@ test_that("can read DP file with EPP indicators", {
 })
 
 
+test_that("can read PrEP parameters and PrEP for pregnant women", {
+  pjnz <- system_file("pjnz", "Azerbaijan.PJNZ")
+  dp <- read_dp(pjnz)
+
+  prep_params <- dp$data$prep_parameters$data
+  expect_equal(dp$data$prep_parameters$tag, "PrEPParameters MV")
+  expect_equal(dim(prep_params), 5L, ignore_attr = TRUE)
+  expect_equal(
+    dimnames(prep_params)[[1]],
+    c("adherence_oral", "adherence_injectable", "selection_incidence_ratio",
+      "person_years_prep_oral", "person_years_prep_injectable")
+  )
+  expect_equal(
+    as.numeric(prep_params),
+    c(0.75, 0.9, 1, 0.59, 0.85)
+  )
+
+  preg_prep <- dp$data$prep_for_pregnant_women$data
+  expect_equal(dp$data$prep_for_pregnant_women$tag, "PrEPForPregnantWomen MV")
+  expect_equal(dim(preg_prep), c(2, 81), ignore_attr = TRUE)
+  expect_equal(dimnames(preg_prep),
+               list(c("oral", "injectable"), dp$dim_vars$years))
+  expect_true(all(preg_prep == 0))
+
+  # Tags not present in older files, returns NULL
+  pjnz <- system_file(
+    "pjnz", "bwa_aim-adult-art-no-special-elig_v6.13_2022-04-18.PJNZ")
+  dp <- read_dp(pjnz)
+  expect_null(dp$data$prep_parameters)
+  expect_null(dp$data$prep_for_pregnant_women)
+})
+
 test_that("can read ART initiation rate", {
   pjnz <- system_file("pjnz", "SouthAfrica_art_initiation_rate.PJNZ")
   dp <- read_dp(pjnz)
