@@ -167,7 +167,7 @@ test_that("can read PrEP parameters and PrEP for pregnant women", {
   expect_equal(
     dimnames(prep_params)[[1]],
     c("adherence_oral", "adherence_long_acting",
-      "incidence_ratio_among_prep_clients_v_non_clients",
+      "client_incidence_ratio",
       "person_years_prep_oral", "person_years_prep_long_acting")
   )
   expect_equal(
@@ -179,7 +179,7 @@ test_that("can read PrEP parameters and PrEP for pregnant women", {
   expect_equal(dp$data$prep_for_pregnant_women$tag, "PrEPForPregnantWomen MV")
   expect_equal(dim(preg_prep), c(2, 81), ignore_attr = TRUE)
   expect_equal(dimnames(preg_prep),
-               list(c("oral", "long_acting"), dp$dim_vars$years))
+               list(c("daily_oral", "injectable"), dp$dim_vars$years))
   expect_true(all(preg_prep == 0))
 
   # Tags not present in older files, returns NULL

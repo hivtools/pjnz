@@ -170,10 +170,10 @@ get_static_dim_vars <- function() {
                        "Children receiving ART (0-14): "),
     prep_parameter = c(
       "adherence_oral", "adherence_long_acting",
-      "incidence_ratio_among_prep_clients_v_non_clients",
+      "client_incidence_ratio",
       "person_years_prep_oral", "person_years_prep_long_acting"
     ),
-    prep_regimen = c("oral", "long_acting")
+    prep_regimen = c("daily_oral", "injectable")
   )
 }
 
