@@ -166,9 +166,9 @@ test_that("can read PrEP parameters and PrEP for pregnant women", {
   expect_equal(dim(prep_params), 5L, ignore_attr = TRUE)
   expect_equal(
     dimnames(prep_params)[[1]],
-    c("adherence_oral", "adherence_long_acting",
+    c("adherence_daily_oral", "adherence_injectable",
       "client_incidence_ratio",
-      "person_years_prep_oral", "person_years_prep_long_acting")
+      "person_years_daily_oral", "person_years_injectable")
   )
   expect_equal(
     as.numeric(prep_params),
