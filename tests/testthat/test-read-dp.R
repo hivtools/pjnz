@@ -157,7 +157,6 @@ test_that("can read DP file with EPP indicators", {
   expect_equal(dp$data$pwid_sex_ratio$data, 0)
 })
 
-
 test_that("can read PrEP parameters and PrEP for pregnant women", {
   pjnz <- system_file("pjnz", "Azerbaijan.PJNZ")
   dp <- read_dp(pjnz)
@@ -167,8 +166,9 @@ test_that("can read PrEP parameters and PrEP for pregnant women", {
   expect_equal(dim(prep_params), 5L, ignore_attr = TRUE)
   expect_equal(
     dimnames(prep_params)[[1]],
-    c("adherence_oral", "adherence_injectable", "selection_incidence_ratio",
-      "person_years_prep_oral", "person_years_prep_injectable")
+    c("adherence_oral", "adherence_long_acting",
+      "incidence_ratio_among_prep_clients_v_non_clients",
+      "person_years_prep_oral", "person_years_prep_long_acting")
   )
   expect_equal(
     as.numeric(prep_params),
@@ -179,7 +179,7 @@ test_that("can read PrEP parameters and PrEP for pregnant women", {
   expect_equal(dp$data$prep_for_pregnant_women$tag, "PrEPForPregnantWomen MV")
   expect_equal(dim(preg_prep), c(2, 81), ignore_attr = TRUE)
   expect_equal(dimnames(preg_prep),
-               list(c("oral", "injectable"), dp$dim_vars$years))
+               list(c("oral", "long_acting"), dp$dim_vars$years))
   expect_true(all(preg_prep == 0))
 
   # Tags not present in older files, returns NULL
